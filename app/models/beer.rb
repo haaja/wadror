@@ -3,11 +3,9 @@ class Beer < ActiveRecord::Base
   has_many :ratings
 
   def average_rating
-    avg = 0.0
-    ratings.each do |rating|
-      avg += rating.score
-    end
-    return avg/ratings.count
+    # this is simpler but the assignment required using inject
+    #ratings.average(:score)
+    ratings.inject(0.0) { |sum, rating | sum + rating.score } / ratings.count
   end
 end
 
