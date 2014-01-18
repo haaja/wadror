@@ -3,7 +3,7 @@ class Rating < ActiveRecord::Base
 
   def to_s
     b = Beer.find_by id:beer_id
-    return b.name + " " + "#{score}"
+    return b.name + ' ' + "#{score}"
   end
 
 end
