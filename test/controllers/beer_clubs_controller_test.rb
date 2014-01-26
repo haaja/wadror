@@ -18,7 +18,7 @@ class BeerClubsControllerTest < ActionController::TestCase
 
   test "should create beer_club" do
     assert_difference('BeerClub.count') do
-      post :create, beer_club: { city: @beer_club.city, founded: @beer_club.founded, username: @beer_club.username }
+      post :create, beer_club: { city: @beer_club.city, founded: @beer_club.founded, name: @beer_club.name }
     end
 
     assert_redirected_to beer_club_path(assigns(:beer_club))
@@ -35,7 +35,7 @@ class BeerClubsControllerTest < ActionController::TestCase
   end
 
   test "should update beer_club" do
-    patch :update, id: @beer_club, beer_club: { city: @beer_club.city, founded: @beer_club.founded, username: @beer_club.username }
+    patch :update, id: @beer_club, beer_club: { city: @beer_club.city, founded: @beer_club.founded, name: @beer_club.name }
     assert_redirected_to beer_club_path(assigns(:beer_club))
   end
 
