@@ -1,10 +1,14 @@
 Ratebeer::Application.routes.draw do
 
+  resources :users
+
   root 'breweries#index'
 
   resources :beers
 
   resources :breweries
+
+  get 'signup', to: 'users#new'
 
   #get 'ratings', to: 'ratings#index'
   #get 'ratings/new', to: 'ratings#new'
