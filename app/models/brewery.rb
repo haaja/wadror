@@ -3,11 +3,17 @@ class Brewery < ActiveRecord::Base
 
   validates_presence_of :name
   validates :year, presence: true,
-                   numericality: { greater_than_or_equal_to: 1042,
-                                   less_than_or_equal_to: 2014,
-                                   only_integer: true }
+                   numericality: { :only_integer => true}
+  validate :validate_year_range
+
   has_many :beers
   has_many :ratings, :through => :beers
+
+  def validate_year_range
+    if not year.between?(1042, Date.today.year)
+      errors.add(:year, "must be between 1042 and #{Date.today.year}")
+    end
+  end
 
   def print_report
     puts name
