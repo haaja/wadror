@@ -1,42 +1,42 @@
 require 'spec_helper'
 
 describe User do
-  it "has the username set correctly" do
-    user = User.new username:"Pekka"
+  it 'has the username set correctly' do
+    user = User.new username: 'Pekka'
 
-    user.username.should == "Pekka"
+    user.username.should == 'Pekka'
   end
 
-  it "is not saved without a password" do
-    user = User.create username:"Pekka"
+  it 'is not saved without a password' do
+    user = User.create username: 'Pekka'
 
     expect(user).not_to be_valid
     expect(User.count).to eq(0)
   end
 
-  it "is not saved with too short password" do
-    user = User.create username:"Pekka", password:"123", password_confirmation:"123"
+  it 'is not saved with too short password' do
+    user = User.create username: 'Pekka', password: '123', password_confirmation: '123'
 
     expect(user).not_to be_valid
     expect(User.count).to eq(0)
   end
 
-  it "is not saved with password consisting of only letters" do
-    user = User.create username:"Pekka", password:"ABcdEF", password_confirmation:"ABcdEF"
+  it 'is not saved with password consisting of only letters' do
+    user = User.create username:'Pekka', password:'ABcdEF', password_confirmation:'ABcdEF'
 
     expect(user).not_to be_valid
     expect(User.count).to eq(0)
   end
 
-  describe "with a proper password" do
-    let(:user){ User.create username:"Pekka", password:"Secret1", password_confirmation:"Secret1" }
+  describe 'with a proper password' do
+    let(:user){ User.create username:'Pekka', password:'Secret1', password_confirmation:'Secret1' }
 
-    it "is saved" do
+    it 'is saved' do
       expect(user).to be_valid
       expect(User.count).to eq(1)
     end
 
-    it "and with two ratings, has the correct average rating" do
+    it 'and with two ratings, has the correct average rating' do
       rating = Rating.new score:10
       rating2 = Rating.new score:20
 
