@@ -1,13 +1,25 @@
 <p id="notice"><%= notice %></p>
 
 <h1><%= @user.username %></h1>
+<p>
+  <% if @user.beer_clubs.empty? %>
+    The user is not a member of any beer clubs
+  <% else %>
+    <h2>Memberhips</h2>
+    <ul>
+      <% @user.beer_clubs.each do |club| %>
+        <li><%= link_to club.name, club %></li>
+      <% end %>
+    </ul>
+  <% end %>
+</p>
 
 <p>
   <% if @user.ratings.empty? %>
       The user has no ratings
   <% else %>
-      has made <%= pluralize(@user.ratings.count, 'rating') %>, average <%= @user.average_rating %>
-    <h2>ratings</h2>
+    <h2>Ratings</h2>
+    has made <%= pluralize(@user.ratings.count, 'rating') %>, average <%= @user.average_rating %>
     <ul>
       <% @user.ratings.each do |rating| %>
           <li>
