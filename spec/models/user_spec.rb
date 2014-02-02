@@ -95,6 +95,33 @@ describe User do
     end
   end
 
+  describe 'favorite brewery' do
+    let(:user) { FactoryGirl.create(:user) }
+
+    it 'has method for detemining favorite brewery' do
+      user.should respond_to :favorite_brewery
+    end
+
+    it 'without ratings does not have a favorite brewery' do
+      expect(user.favorite_brewery).to eq(nil)
+    end
+
+    it 'with one rating should return the brewery of the beer as the favorite' do
+      beer = create_beer_with_rating(10, user)
+
+      expect(user.favorite_brewery).to eq(beer.brewery)
+    end
+
+    it 'with many ratings should return the brewery with the highest average rating' do
+      favorite_brewery = FactoryGirl.create(:brewery, name: 'favorite')
+      default_brewery = FactoryGirl.create(:brewery)
+      create_beer_with_ratings_and_brewery(1, 2, 3, 4, 5, default_brewery, user)
+      create_beer_with_ratings_and_brewery(20, 22, 13, 24, 25, favorite_brewery, user)
+
+      expect(user.favorite_brewery).to eq(favorite_brewery)
+    end
+  end
+
   # helper methods
   def create_beer_with_rating(score, user)
     beer = FactoryGirl.create(:beer)
@@ -117,6 +144,17 @@ describe User do
   def create_beer_with_ratings_and_style(*scores, style, user)
     scores.each do |score|
       create_beer_with_rating_and_style(score, style, user)
+    end
+  end
+
+  def create_beer_with_rating_and_brewery(score, brewery, user)
+    beer = FactoryGirl.create(:beer, brewery: brewery)
+    FactoryGirl.create(:rating, score: score, beer: beer, user: user)
+  end
+
+  def create_beer_with_ratings_and_brewery(*scores, brewery, user)
+    scores.each do |score|
+      create_beer_with_rating_and_brewery(score, brewery, user)
     end
   end
 end

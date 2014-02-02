@@ -30,4 +30,10 @@ class User < ActiveRecord::Base
     return ratings.first.beer.style if ratings.count == 1
     'FixMe'
   end
+
+  def favorite_brewery
+    return nil if ratings.empty?
+    return ratings.first.beer.brewery if ratings.count == 1
+    'FixMe'
+  end
 end
