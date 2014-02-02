@@ -14,5 +14,19 @@ b1.beers.create name:"Karhu", style:"Lager"
 b1.beers.create name:"Tuplahumala", style:"Lager"
 b2.beers.create name:"Huvila Pale Ale", style:"Pale Ale"
 b2.beers.create name:"X Porter", style:"Porter"
-b3.beers.create name:"Hefezeizen", style:"Weizen"
-b3.beers.create name:"Helles", style:"Lager"
+beer3 = b3.beers.create name:"Hefezeizen", style:"Weizen"
+beer4 = b3.beers.create name:"Helles", style:"Lager"
+
+u1 = User.create username:"Test", password:"SalaK4l4", password_confirmation:"SalaK4l4"
+u2 = User.create username:"TestTest", password:"SalaK4l4SalaK4l4", password_confirmation:"SalaK4l4SalaK4l4"
+
+u1.ratings.create beer:beer3, score:20
+u1.ratings.create beer:beer4, score:25
+u2.ratings.create beer:beer4, score:10
+
+c1 = BeerClub.create name:"Vallilan hiiva", founded:1989, city:"Helsinki"
+c2 = BeerClub.create name:"Kumpulan akateeminen olutseura", founded:2011, city:"Helsinki"
+
+u1.beer_clubs << c1
+u1.beer_clubs << c2
+u2.beer_clubs << c1
