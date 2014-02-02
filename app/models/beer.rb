@@ -8,7 +8,7 @@ class Beer < ActiveRecord::Base
   has_many :raters, -> { uniq }, through: :ratings, source: :user
 
   def to_s
-    return "#{name}, #{brewery.name}"
+    "#{name}, #{brewery.name}"
   end
 end
 

@@ -17,6 +17,6 @@ class User < ActiveRecord::Base
   has_many :beer_clubs, through: :memberships
 
   def to_s
-    return "#{username}"
+    "#{username}"
   end
 end

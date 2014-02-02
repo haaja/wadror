@@ -28,6 +28,6 @@ class Brewery < ActiveRecord::Base
   end
 
   def to_s
-    return "#{name}"
+    "#{name}"
   end
 end
