@@ -70,15 +70,53 @@ describe User do
     end
   end
 
+  describe 'favorite style' do
+    let(:user) { FactoryGirl.create(:user) }
+
+    it 'has method for determining favorite style' do
+      user.should respond_to :favorite_style
+    end
+
+    it 'without rating does not have favorite style' do
+      expect(user.favorite_style).to eq(nil)
+    end
+
+    it 'with one rating should have the beers rating as the favorite' do
+      beer = create_beer_with_rating(10, user)
+
+      expect(user.favorite_style).to eq(beer.style)
+    end
+
+    it 'with many ratings should return the style with highest average' do
+      style = 'IPA'
+      create_beer_with_ratings_and_style(10, 20, 15, 7, 9, 8, style, user)
+      create_beer_with_ratings_and_style(1, 2, 3, 4, 5, 'Lager', user)
+      expect(user.favorite_style).to eq(style)
+    end
+  end
+
+  # helper methods
   def create_beer_with_rating(score, user)
     beer = FactoryGirl.create(:beer)
-    FactoryGirl.create(:rating, score:score, beer:beer, user:user)
+    FactoryGirl.create(:rating, score: score, beer: beer, user: user)
     beer
   end
 
   def create_beer_with_ratings(*scores, user)
     scores.each do |score|
       create_beer_with_rating(score, user)
+    end
+  end
+
+  def create_beer_with_rating_and_style(score, style, user)
+    beer = FactoryGirl.create(:beer, style: style)
+    FactoryGirl.create(:rating, score: score, beer: beer, user: user)
+    beer
+  end
+
+  def create_beer_with_ratings_and_style(*scores, style, user)
+    scores.each do |score|
+      create_beer_with_rating_and_style(score, style, user)
     end
   end
 end

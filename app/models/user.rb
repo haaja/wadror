@@ -24,4 +24,10 @@ class User < ActiveRecord::Base
     return nil if ratings.empty?
     ratings.order(score: :desc).limit(1).first.beer
   end
+
+  def favorite_style
+    return nil if ratings.empty?
+    return ratings.first.beer.style if ratings.count == 1
+    'FixMe'
+  end
 end
