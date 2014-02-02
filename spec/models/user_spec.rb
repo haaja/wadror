@@ -21,6 +21,13 @@ describe User do
     expect(User.count).to eq(0)
   end
 
+  it "is not saved with password consisting of only letters" do
+    user = User.create username:"Pekka", password:"ABcdEF", password_confirmation:"ABcdEF"
+
+    expect(user).not_to be_valid
+    expect(User.count).to eq(0)
+  end
+
   describe "with a proper password" do
     let(:user){ User.create username:"Pekka", password:"Secret1", password_confirmation:"Secret1" }
 
