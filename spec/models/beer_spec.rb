@@ -16,4 +16,10 @@ describe Beer do
     expect(beer).not_to be_valid
     expect(Beer.count).to eq(0)
   end
+
+  it 'is not created without a style' do
+    beer = Beer.create name:'Best beer'
+
+    expect(beer).not_to be_valid
+  end
 end
