@@ -61,5 +61,22 @@ describe 'User' do
       expect(page).to have_content 'has made 2 ratings, average 10.0'
       expect(Rating.count).to eq(4)
     end
+
+    it 'deleting a rating will remove it from the database' do
+      user.ratings << FactoryGirl.create(:rating, beer: beer1)
+      user.ratings << FactoryGirl.create(:rating, beer: beer2)
+      FactoryGirl.create(:rating, beer: beer2)
+      FactoryGirl.create(:rating2, beer: beer2)
+
+      sign_in(username:'Pekka', password:'Foobar1')
+
+      visit user_path(user)
+
+      expect(Rating.count).to eq(4)
+      expect{
+        click_link('delete', :match => :first)
+      }.to change{ user.ratings.count }.by(-1)
+      expect(Rating.count).to eq(3)
+    end
   end
 end
