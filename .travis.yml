@@ -1,10 +1,19 @@
 language: ruby
-
 rvm:
- - 2.0.0
-
+- 2.0.0
 script:
- - bundle exec rake db:migrate --trace
- - RAILS_ENV=test bundle exec rake db:migrate --trace
- - bundle exec rake db:test:prepare
- - bundle exec rspec -fd spec/
+- bundle exec rake db:migrate --trace
+- RAILS_ENV=test bundle exec rake db:migrate --trace
+- bundle exec rake db:test:prepare
+- bundle exec rspec -fd spec/
+deploy:
+  provider: heroku
+  api_key:
+    secure: VTEdhL+WMEtc+wZuJYNFjNRhPiTioHGa6h1XpbGni3dwUyd88dZLU6S/AdC6Y2882J336pTBkMn8QWFDo7yKMuLqCIlNkDLw9ueyrWc4uWCj25gkHDwCwusSLHU8UKet8sSE1ghak8vGWxn0zaxR2Q121r+BE3JexBnlhqtlnKk=
+  app:
+    master: beers4thirsty
+    run:
+      - 'rake pg:reset --confirm beers4thirsty'
+      - 'rake db:migrate'
+      - 'rake db:seed'
+      - 'restart'
