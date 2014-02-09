@@ -27,12 +27,40 @@ class User < ActiveRecord::Base
 
   def favorite_style
     return nil if ratings.empty?
-    ratings.sort_by{ |rating| rating.score }.sort_by{ |r| r.beer.style }.first.beer.style
+
+    styles = ratings.map{ |r| r.beer.style }.uniq
+    averages = count_averages(styles)
+    averages.key(averages.values.max)
   end
 
   def favorite_brewery
     return nil if ratings.empty?
-    id = ratings.sort_by{ |rating| rating.score }.sort_by{ |r| r.beer.brewery_id }.first.beer.brewery_id
-    Brewery.find_by(id: id)
+    breweries = ratings.map{ |r| r.beer.brewery }.uniq
+    averages = count_brewery_averages(breweries)
+    averages.key(averages.values.max)
+  end
+
+  def count_averages(styles)
+    averages = {}
+    styles.each do |s|
+      amount = ratings.select{ |r| r.beer.style == s }.count
+      averages[s] = ratings.select{ |r|
+        r.beer.style == s
+      }.inject(0.0){ |sum, r| sum + r.score} / amount
+    end
+
+    averages
+  end
+
+  def count_brewery_averages(breweries)
+    averages = {}
+    breweries.each do |s|
+      amount = ratings.select{ |r| r.beer.brewery == s }.count
+      averages[s] = ratings.select{ |r|
+        r.beer.brewery == s
+      }.inject(0.0){ |sum, r| sum + r.score} / amount
+    end
+
+    averages
   end
 end
