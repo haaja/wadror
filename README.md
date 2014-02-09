@@ -1,4 +1,4 @@
-== README
+# README
 
 The app: https://beers4thirsty.herokuapp.com/breweries
 
