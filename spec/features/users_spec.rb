@@ -3,9 +3,7 @@ require 'spec_helper'
 include OwnTestHelper
 
 describe 'User' do
-  before :each do
-    FactoryGirl.create :user
-  end
+  let!(:user) { FactoryGirl.create :user }
 
   describe 'who was signed up' do
     it 'can signin with right credentials' do
@@ -31,6 +29,37 @@ describe 'User' do
       expect {
         click_button('Create User')
       }.to change{ User.count }.by(1)
+    end
+  end
+
+  describe 'on the user page' do
+    let!(:brewery) { FactoryGirl.create :brewery, name: 'Koff' }
+    let!(:beer1) { FactoryGirl.create :beer, name: 'iso 3', brewery: brewery }
+    let!(:beer2) { FactoryGirl.create :beer, name: 'Karhu', brewery: brewery }
+
+    it 'no ratings are shown if there are none' do
+      visit user_path(user)
+
+      expect(page).to have_content "#{user.username}"
+      expect(page).to have_content 'The user has no ratings'
+    end
+
+    it 'shows a rating when there is one' do
+      user.ratings << FactoryGirl.create(:rating, beer: beer1)
+
+      visit user_path(user)
+      expect(page).to have_content 'has made 1 rating, average 10.0'
+    end
+
+    it 'only users own ratings and average is shown' do
+      user.ratings << FactoryGirl.create(:rating, beer: beer1)
+      user.ratings << FactoryGirl.create(:rating, beer: beer2)
+      FactoryGirl.create(:rating, beer: beer2)
+      FactoryGirl.create(:rating2, beer: beer2)
+
+      visit user_path(user)
+      expect(page).to have_content 'has made 2 ratings, average 10.0'
+      expect(Rating.count).to eq(4)
     end
   end
 end
