@@ -1,5 +1,8 @@
 require 'spec_helper'
 
+BeerClub
+BeerClubsController
+
 describe Brewery do
   it 'has the name and year set correctly and is saved to database' do
     brewery = Brewery.create name:'Schlenkerla', year:1674
