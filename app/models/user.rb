@@ -27,13 +27,12 @@ class User < ActiveRecord::Base
 
   def favorite_style
     return nil if ratings.empty?
-    return ratings.first.beer.style if ratings.count == 1
-    'FixMe'
+    ratings.sort_by{ |rating| rating.score }.sort_by{ |r| r.beer.style }.first.beer.style
   end
 
   def favorite_brewery
     return nil if ratings.empty?
-    return ratings.first.beer.brewery if ratings.count == 1
-    'FixMe'
+    id = ratings.sort_by{ |rating| rating.score }.sort_by{ |r| r.beer.brewery_id }.first.beer.brewery_id
+    Brewery.find_by(id: id)
   end
 end
