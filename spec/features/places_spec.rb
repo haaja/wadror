@@ -30,4 +30,12 @@ describe 'Places' do
     expect(page).to have_content 'Laskuvarjo'
     expect(page).to have_content 'Onnenpekka'
   end
+
+  it 'if the API returns no results then error message is shown on the page' do
+    visit places_path
+    fill_in('city', with: 'kumpula')
+    click_button 'Search'
+
+    expect(page).to have_content 'No locations in kumpula'
+  end
 end
