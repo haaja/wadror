@@ -2,4 +2,6 @@
 
 The app: https://beers4thirsty.herokuapp.com/breweries
 
-[![Build Status](https://travis-ci.org/haaja/ratebeer.png)](https://travis-ci.org/haaja/ratebeer)
+[![Build Status](https://travis-ci.org/haaja/wadror.png)](https://travis-ci.org/haaja/wadror)
+
+[![Code Climate](https://codeclimate.com/github/haaja/wadror)](https://codeclimate.com/github/haaja/wadror)
