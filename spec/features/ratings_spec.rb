@@ -1,5 +1,7 @@
 require 'spec_helper'
 
+include OwnTestHelper
+
 describe 'Rating' do
   let!(:brewery) { FactoryGirl.create :brewery, name: 'Koff' }
   let!(:beer1) { FactoryGirl.create :beer, name: 'iso 3', brewery: brewery }
@@ -7,10 +9,7 @@ describe 'Rating' do
   let!(:user) { FactoryGirl.create :user }
 
   before :each do
-    visit signin_path
-    fill_in('username', with: 'Pekka')
-    fill_in('username', with: 'Foobar1')
-    click_button('Log in')
+    sign_in(username:'Pekka', password:'Foobar1')
   end
 
   it 'when given, is registered to the beer and user who is signed in' do
