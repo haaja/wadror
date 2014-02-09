@@ -14,6 +14,16 @@
   <% end %>
 </p>
 
+<% if not @user.ratings.empty? %>
+    <p>
+      <h2>Favorites:</h2>
+      <ul>
+        <li>Favorite style: <%= @user.favorite_style %></li>
+        <li>Favorite brewery: <%= @user.favorite_brewery %></li>
+      </ul>
+    </p>
+<% end %>
+
 <p>
   <% if @user.ratings.empty? %>
       The user has no ratings

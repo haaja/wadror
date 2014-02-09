@@ -33,7 +33,7 @@ describe 'User' do
   end
 
   describe 'on the user page' do
-    let!(:brewery) { FactoryGirl.create :brewery, name: 'Koff' }
+    let!(:brewery) { FactoryGirl.create :brewery, name: 'WinnerBrewery' }
     let!(:beer1) { FactoryGirl.create :beer, name: 'iso 3', brewery: brewery }
     let!(:beer2) { FactoryGirl.create :beer, name: 'Karhu', brewery: brewery }
 
@@ -77,6 +77,20 @@ describe 'User' do
         click_link('delete', :match => :first)
       }.to change{ user.ratings.count }.by(-1)
       expect(Rating.count).to eq(3)
+    end
+
+    it 'should not show favorites if the user has no ratings' do
+      visit user_path(user)
+      expect(page).not_to have_content 'has made 1 rating, average 10.0'
+    end
+
+    it 'should show favorite style and brewery on the user page' do
+      user.ratings << FactoryGirl.create(:rating, beer: beer1)
+      user.ratings << FactoryGirl.create(:rating, beer: beer2)
+
+      visit user_path(user)
+      expect(page).to have_content 'Favorite style: Lager'
+      expect(page).to have_content 'Favorite brewery: WinnerBrewery'
     end
   end
 end
