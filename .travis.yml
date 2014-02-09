@@ -14,7 +14,4 @@ deploy:
   on:
     repo: haaja/wadror
   run:
-    - 'heroku pg:reset HEROKU_POSTGRESQL_TEAL_URL --confirm beers4thirsty'
     - 'rake db:migrate'
-    - 'rake db:seed'
-    - 'restart'
