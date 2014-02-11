@@ -13,5 +13,10 @@ class PlacesController < ApplicationController
 
   def show
     @place = Place.new BeermappingApi.get_place(params[:id])
+    if @places.empty?
+      redirect_to places_path, notice: "No place with id #{params[:id]}"
+    else
+      render :index
+    end
   end
 end

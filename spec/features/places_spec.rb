@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'Places' do
   it 'if one is returned by the API, it is shown at the page' do
     BeermappingApi.stub(:places_in).with('kumpula').and_return(
-        [ Place.new(:name => 'Oljenkorsi') ]
+        [ Place.new(:name => 'Oljenkorsi', :id => 1) ]
     )
 
     visit places_path
@@ -16,9 +16,9 @@ describe 'Places' do
   it 'if multiple results is returned by the API, they are all shown on the page' do
     BeermappingApi.stub(:places_in).with('kumpula').and_return(
         [
-            Place.new(:name => 'Oljenkorsi'),
-            Place.new(:name => 'Laskuvarjo'),
-            Place.new(:name => 'Onnenpekka')
+            Place.new(:name => 'Oljenkorsi', :id => 1),
+            Place.new(:name => 'Laskuvarjo', :id => 2),
+            Place.new(:name => 'Onnenpekka', :id => 3)
         ]
     )
 
