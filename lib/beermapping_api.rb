@@ -18,7 +18,27 @@ class BeermappingApi
     end
   end
 
+  def self.get_place(id)
+    Rails.cache.fetch(id, :expires_in => 1.week) { fetch_get_place(id) }
+  end
+
+  def self.fetch_get_place(id)
+    url = "http://beermapping.com/webservice/locquery/#{key}/"
+
+    response = HTTParty.get "#{url}#{ERB::Util.url_encode(id)}"
+    place = response.parsed_response['bmp_locations']['location']
+
+    return [] if place.is_a?(Hash) and place['id'].nil?
+
+    place = [place] if place.is_a?(Hash)
+    place.inject([]) do | set, place |
+      set << Place.new(place)
+    end
+
+    place.first
+  end
+
   def self.key
-    '1c062c8dced5c4374a302f0810a1f46a'
+    Settings.beermapping_apikey
   end
 end

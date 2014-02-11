@@ -1,0 +1,17 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+<h2><%= @place.name %></h2>
+</p>
+
+<p>
+  <ul>
+    <li><%= @place.street %></li>
+    <li><%= @place.zip %></li>
+    <li><%= @place.city %></li>
+  </ul>
+</p>
+
+<p>
+  <iframe width="500" height="500" src="<%= @place.blogmap %>"></iframe>
+</p>
