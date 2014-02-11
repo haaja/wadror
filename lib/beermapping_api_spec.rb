@@ -39,4 +39,13 @@ describe 'BeermappingApi' do
     expect(places[2].name).to eq('Pub Ruusu')
     expect(places[2].street).to eq('Tuoppikuja 3')
   end
+
+  it 'when HTTP GET returns no results, method should return an empty array' do
+    stub_request(:get, /.*tampere|kumpula/).to_return(:status => 200, :body => '', :headers => {})
+
+    places = BeermappingApi.places_in('tampere')
+
+    expect(places.size).to eq(0)
+    expect(places).to eq([])
+  end
 end
