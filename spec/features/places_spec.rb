@@ -32,6 +32,10 @@ describe 'Places' do
   end
 
   it 'if the API returns no results then error message is shown on the page' do
+    BeermappingApi.stub(:places_in).with('kumpula').and_return(
+        [ ]
+    )
+
     visit places_path
     fill_in('city', with: 'kumpula')
     click_button 'Search'
