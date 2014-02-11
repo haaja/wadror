@@ -63,3 +63,6 @@ gem 'debugger', group: [:development, :test]
 
 # Use HTTParty
 gem 'httparty'
+
+# Use rails-settings-cached
+gem 'rails-settings-cached', '0.3.1'
