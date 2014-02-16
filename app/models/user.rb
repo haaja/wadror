@@ -25,42 +25,31 @@ class User < ActiveRecord::Base
     ratings.order(score: :desc).limit(1).first.beer
   end
 
-  def favorite_style
-    return nil if ratings.empty?
-
-    styles = ratings.map{ |r| r.beer.style }.uniq
-    averages = count_averages(styles)
-    averages.key(averages.values.max)
-  end
-
   def favorite_brewery
+    favorite :brewery
+  end
+
+  def favorite_style
+    favorite :style
+  end
+
+ private
+
+  def rating_average(category, item)
+    ratings_of_item = ratings.select{ |r|r.beer.send(category)==item }
+    return 0 if ratings_of_item.empty?
+    ratings_of_item.inject(0.0){ |sum ,r| sum+r.score } / ratings_of_item.count
+  end
+
+  def favorite(category)
     return nil if ratings.empty?
-    breweries = ratings.map{ |r| r.beer.brewery }.uniq
-    averages = count_brewery_averages(breweries)
-    averages.key(averages.values.max)
+    rating_pairs = rated(category).inject([]) do |pairs, item|
+      pairs << [item, rating_average(category, item)]
+    end
+    rating_pairs.sort_by { |s| s.last }.last.first
   end
 
-  def count_averages(styles)
-    averages = {}
-    styles.each do |s|
-      amount = ratings.select{ |r| r.beer.style == s }.count
-      averages[s] = ratings.select{ |r|
-        r.beer.style == s
-      }.inject(0.0){ |sum, r| sum + r.score} / amount
-    end
-
-    averages
-  end
-
-  def count_brewery_averages(breweries)
-    averages = {}
-    breweries.each do |s|
-      amount = ratings.select{ |r| r.beer.brewery == s }.count
-      averages[s] = ratings.select{ |r|
-        r.beer.brewery == s
-      }.inject(0.0){ |sum, r| sum + r.score} / amount
-    end
-
-    averages
+  def rated(category)
+    ratings.map{ |r| r.beer.send(category) }.uniq
   end
 end
