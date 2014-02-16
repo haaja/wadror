@@ -8,7 +8,6 @@ gem 'rails', '4.0.2'
 group :development, :test do
     gem 'sqlite3'
     gem 'rspec-rails', '~> 2.14.1'
-    gem 'byebug'
 end
 
 group :test do
@@ -67,3 +66,5 @@ gem 'httparty'
 
 # Use rails-settings-cached
 gem 'rails-settings-cached', '0.3.1'
+
+gem 'byebug', group: [:development, :test]
