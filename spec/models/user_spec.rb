@@ -91,7 +91,7 @@ describe User do
       style = 'IPA'
       create_beer_with_ratings_and_style(10, 20, 15, 7, 9, 8, style, user)
       create_beer_with_ratings_and_style(1, 2, 3, 4, 5, 'Lager', user)
-      expect(user.favorite_style).to eq(style)
+      expect(user.favorite_style.name).to eq(style)
     end
   end
 
@@ -136,7 +136,8 @@ describe User do
   end
 
   def create_beer_with_rating_and_style(score, style, user)
-    beer = FactoryGirl.create(:beer, style: style)
+    beer_style = FactoryGirl.create(:style, name: style, description: style)
+    beer = FactoryGirl.create(:beer, style: beer_style)
     FactoryGirl.create(:rating, score: score, beer: beer, user: user)
     beer
   end

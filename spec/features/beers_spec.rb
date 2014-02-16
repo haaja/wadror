@@ -5,6 +5,7 @@ include OwnTestHelper
 describe 'Beers' do
   let!(:user) { FactoryGirl.create :user }
   let!(:brewery) { FactoryGirl.create :brewery }
+  let!(:style) { FactoryGirl.create :style }
 
   before :each do
     sign_in(username:'Pekka', password:'Foobar1')
@@ -14,7 +15,7 @@ describe 'Beers' do
     visit new_beer_path
     fill_in('beer_name', with:'')
 
-    select('Lager', from: 'beer_style')
+    select('Lager', from: 'beer_style_id')
     select(brewery.name, from: 'beer_brewery_id')
 
     expect{
@@ -29,7 +30,7 @@ describe 'Beers' do
     visit new_beer_path
     fill_in('beer_name', with:'Example beer')
 
-    select('Lager', from: 'beer_style')
+    select('Lager', from: 'beer_style_id')
     select(brewery.name, from: 'beer_brewery_id')
 
     expect{

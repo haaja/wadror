@@ -2,6 +2,7 @@ class Beer < ActiveRecord::Base
   include RatingAverage
 
   validates_presence_of :name
+  validates_presence_of :style_id
 
   belongs_to :brewery
   belongs_to :style
