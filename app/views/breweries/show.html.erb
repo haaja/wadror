@@ -23,6 +23,6 @@
 
 <% if current_user %>
     <%= link_to('Edit', edit_brewery_path(@brewery), class: 'btn btn-primary') %>
-    <%= link_to 'Destroy', @brewery, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>
+    <%= link_to 'Destroy', @brewery, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' if current_user.admin? %>
 <% end %>
 <%= link_to 'Back', breweries_path, class: 'btn btn-primary' %>
