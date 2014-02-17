@@ -46,4 +46,12 @@ describe 'Beerlist page' do
     find('table').find('tr:nth-child(3)').should have_content('Lechte Weisse')
     find('table').find('tr:nth-child(4)').should have_content('Nikolai')
   end
+
+  it 'orders the beer by style when style header is clicked', js:true do
+    visit beerlist_path
+    click_link 'Style'
+    find('table').find('tr:nth-child(2)').should have_content('Lager')
+    find('table').find('tr:nth-child(3)').should have_content('Rauchbier')
+    find('table').find('tr:nth-child(4)').should have_content('Weizen')
+  end
 end
