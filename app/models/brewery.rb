@@ -3,8 +3,11 @@ class Brewery < ActiveRecord::Base
 
   validates_presence_of :name
   validates :year, presence: true,
-                   numericality: { :only_integer => true}
+                   numericality: { :only_integer => true }
   validate :validate_year_range
+
+  scope :active, -> { where active:true }
+  scope :retired, -> { where active:[nil, false] }
 
   has_many :beers
   has_many :ratings, :through => :beers
