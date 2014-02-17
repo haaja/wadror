@@ -72,3 +72,8 @@ gem 'httparty'
 gem 'rails-settings-cached', '0.3.1'
 
 gem 'byebug', group: [:development, :test]
+
+gem 'bootstrap-sass'
+group 'development' do
+  gem 'rails_layout'
+end
