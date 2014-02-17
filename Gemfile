@@ -13,6 +13,8 @@ end
 group :test do
   gem 'factory_girl_rails'
   gem 'capybara'
+  gem 'selenium-webdriver'
+  gem 'database_cleaner', '< 1.1.0'
   gem 'launchy'
   gem 'simplecov', require: false
   gem 'webmock'
